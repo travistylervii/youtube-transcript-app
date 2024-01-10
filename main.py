@@ -8,11 +8,14 @@ app = FastAPI()
 def read_root():
     return {"Hello": "World"}
 
-@app.get("/ytid/{vid_id}")
-def read_item(vid_id: str):
+@app.get("/yt-transcribe/")
+def read_item(videoId: str = None):
 
+    if(videoId == "None"):
+        return {"item_id": videoId, "error": "No Video Id"}
+    
     #processes youtube transcript from id
-    data = YouTubeTranscriptApi.get_transcript(vid_id)
+    data = YouTubeTranscriptApi.get_transcript(videoId)
 
     transcriptText = ""
 
@@ -20,4 +23,4 @@ def read_item(vid_id: str):
     for item in data:
         transcriptText = transcriptText + " " + item["text"]
 
-    return {"item_id": vid_id, "transcript": transcriptText}
+    return {"item_id": videoId, "transcript": transcriptText}
