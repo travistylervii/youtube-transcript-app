@@ -8,12 +8,11 @@ app = FastAPI()
 def read_root():
     return {"Hello": "World"}
 
-@app.get("/ytid/{item_id}")
-def read_item(item_id: str):
+@app.get("/ytid/{vid_id}")
+def read_item(vid_id: str):
 
     #processes youtube transcript from id
-    print("Get Transcript")
-    data = YouTubeTranscriptApi.get_transcript("M6DNOpQcCjs")
+    data = YouTubeTranscriptApi.get_transcript(vid_id)
 
     transcriptText = ""
 
@@ -21,4 +20,4 @@ def read_item(item_id: str):
     for item in data:
         transcriptText = transcriptText + " " + item["text"]
 
-    return {"item_id": item_id, "transcript": transcriptText}
+    return {"item_id": vid_id, "transcript": transcriptText}
